@@ -42,7 +42,8 @@
         "aplite",
         "basalt"
     ],
-    "versionLabel": "3.1",
+    "uuid":"d9b7a8c4-e010-4b9e-8246-b2736995d5b5",
+    "versionLabel": "1.0",
     "watchapp": {
         "watchface": false
     }
