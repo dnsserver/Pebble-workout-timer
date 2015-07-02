@@ -8,8 +8,8 @@
     "capabilities": [
         "configurable"
     ],
-    "companyName": "Fernando Trujano",
-    "longName": "Custom Workout Timer",
+    "companyName": "Denis Babani",
+    "longName": "WorkItOut",
     "projectType": "native",
     "resources": {
         "media": [
@@ -42,7 +42,6 @@
         "aplite",
         "basalt"
     ],
-    "uuid": "2add7054-08bc-4dda-b4d8-28f22f3d7ec2",
     "versionLabel": "3.1",
     "watchapp": {
         "watchface": false
