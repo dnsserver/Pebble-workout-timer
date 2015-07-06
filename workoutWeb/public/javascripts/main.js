@@ -146,9 +146,9 @@ $(document).ready(function(){
     //Parse URL
     var parser = document.createElement('a');
     parser.href = document.URL;
-    var urlinfo = parser.search.slice(6).split(','); //Split url into array of info. Current Format [token,version]
-    var token = urlinfo[0]; //Unique to Pebble account and this app!
-    var version = parseFloat(urlinfo[1]) ;
+    //var urlinfo = parser.search.slice(6).split(','); //Split url into array of info. Current Format [token,version]
+    var token = "token12345";//urlinfo[0]; //Unique to Pebble account and this app!
+    var version = "1.2";//parseFloat(urlinfo[1]) ;
     var jsonstring = false;
 
 
@@ -161,7 +161,7 @@ $(document).ready(function(){
     $('.slider').slider();
 
     $.ajax({
-      url:'read.php?token='+ token,
+      url:'/read?token='+ token,
       complete: function (response) {
         if (response.responseText){
             console.log("got a response! ");
@@ -184,7 +184,7 @@ $(document).ready(function(){
             //Submit json file to server
             $.ajax({
               type: "POST",
-              url: 'save.php?token='+token,
+              url: '/save?token='+token,
               data: {"data": JSON.stringify(json)},
               success: function(data, textStatus, jqXHR){
                 console.log("Server received message");
