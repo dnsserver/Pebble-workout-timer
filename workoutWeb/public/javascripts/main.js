@@ -163,8 +163,8 @@ $(document).ready(function(){
     $.ajax({
       type:'POST',
       url:'/read?token='+ token,
-      dataType: "application/json",
-      data: { data: {user: "denis"} },
+      contentType: "application/json",
+      data: '{ "data": {"user": "denis"} }',
       complete: function (response) {
         if (response.responseText){
             console.log("got a response! ");
@@ -176,7 +176,7 @@ $(document).ready(function(){
       },
 
       error: function () {
-          console.log("Something went wrong. Can't connect");
+          console.log("Can't get workouts.");
       },
     });
 
@@ -191,22 +191,17 @@ $(document).ready(function(){
               url: '/save?token='+token,
               data: {"data": JSON.stringify(json)},
               success: function(data, textStatus, jqXHR){
-                console.log("Server received message");
-                console.log(textStatus, data, jqXHR);
                 $("#success").fadeIn();
                 $("#main-error").hide();
-                document.location = "pebblejs://close#" +encodeURIComponent(JSON.stringify(json)) ;
-                },
-
-              complete: function(){console.log("Send message to PHP")},
+                document.location = "pebblejs://close#"; //+encodeURIComponent(JSON.stringify(json)) ;
+              },
+              complete: function(){
+                console.log("Data saved.")
+              },
               error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error: you are weak. ");
                 console.log(textStatus, errorThrown, jqXHR.responseText);
-                }
+              }
             });
-
-            console.log("ajax funciton called");
-            console.log(json);
         }
     });
 
@@ -227,12 +222,3 @@ $(document).ready(function(){
         }
     );
 });
-
-//Analytics
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-52590022-1', 'auto');
-  ga('send', 'pageview');

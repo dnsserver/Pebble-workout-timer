@@ -18,6 +18,7 @@ $(document).ready(function(){
         $('#move-list').listview('refresh');
         $("#error1").fadeOut();
         $("#error-add-workout").fadeOut();
+        window.location = '#main';
      }
 
     var workout = {};

@@ -7,7 +7,7 @@ var MongoDb = require('mongodb');
 var mongoClient = MongoDb.MongoClient;
 var mongoWIO = null;
 
-var url = 'mongodb://localhost:27017/workitwout';
+var url = 'mongodb://localhost:27017/workitout';
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Workout Configuration' });
 });
@@ -22,12 +22,12 @@ router.all('/read', function(req, res, next) {
     }
     var workouts = db.collection('workouts');
     console.log("user: "+req.body.data.user);
-    workouts.find({user: req.body.data.user}).toArray(function(err, w){
+    workouts.findOne({user: req.body.data.user}, function(err, w){
       console.log(w);
       assert.equal(null,err);
       var data = null;
       if(w!=null)
-        var data = {"workouts": w};
+        var data =w;
       else
         var data = {"workouts": ""};
 
