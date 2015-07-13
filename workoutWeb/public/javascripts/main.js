@@ -161,7 +161,10 @@ $(document).ready(function(){
     $('.slider').slider();
 
     $.ajax({
+      type:'POST',
       url:'/read?token='+ token,
+      dataType: "application/json",
+      data: { data: {user: "denis"} },
       complete: function (response) {
         if (response.responseText){
             console.log("got a response! ");
@@ -182,6 +185,7 @@ $(document).ready(function(){
 
         else {
             //Submit json file to server
+            json.user = "denis";
             $.ajax({
               type: "POST",
               url: '/save?token='+token,

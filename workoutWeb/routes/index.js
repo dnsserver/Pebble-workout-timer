@@ -1,42 +1,59 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+var assert = require('assert');
+
+var MongoDb = require('mongodb');
+var mongoClient = MongoDb.MongoClient;
+var mongoWIO = null;
+
+var url = 'mongodb://localhost:27017/workitwout';
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Workout Configuration' });
 });
 
-router.get('/read', function(req, res, next) {
-  var data = {
-      "workouts": [
-          {
-              "title": "Workout Title",
-              "moves": [
-                  {
-                    "name" : "Move 1",
-                    "value" : 19, //secs
-                    "type" : "time"
-                  },
-                  {
-                    "name" : "Move 2",
-                    "value" : 5, //reps
-                    "type" : "reps"
-                  }
-              ]
-          },
-          {
-              "title": "Workout Title",
-              "moves": [
-                  //...
-              ]
-          }
-      ]
-  };
-  res.send(JSON.stringify(data));
+router.all('/read', function(req, res, next) {
+  mongoClient.connect(url, function(err, db){
+    assert.equal(null,err);
+    console.log(req.body);
+    if(!req.body.data || !req.body.data.user){
+      res.send(JSON.stringify({workouts:[]}));
+      return;
+    }
+    var workouts = db.collection('workouts');
+    console.log("user: "+req.body.data.user);
+    workouts.find({user: req.body.data.user}).toArray(function(err, w){
+      console.log(w);
+      assert.equal(null,err);
+      var data = null;
+      if(w!=null)
+        var data = {"workouts": w};
+      else
+        var data = {"workouts": ""};
+
+      res.send(JSON.stringify(data));
+    });
+  });
 });
 
 
-router.get('/save', function(req, res, next) {
-  res.send("OK");
+router.post('/save', function(req, res, next) {
+
+  console.log(req.body.data);
+  var wts = JSON.parse(req.body.data);
+  console.log(wts);
+  mongoClient.connect(url, function(err, db){
+    console.log(err);
+    assert.equal(null, err);
+    var workouts = db.collection('workouts');
+    console.log("got collection");
+    workouts.deleteMany({user: wts.user});
+    console.log("deleted all workouts");
+    workouts.insertOne(wts, function(err, r){
+      console.log(err);
+      assert.equal(null,err);
+      res.send("OK");
+    });
+  });
 });
 module.exports = router;

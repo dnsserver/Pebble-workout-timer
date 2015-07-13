@@ -134,9 +134,10 @@ $(document).ready(function(){
         while (title.slice(-1)==" ") title = title.slice(0,-1); //Don't allow trailing spaces
 
         var same_title = false;
-        $.each(json.workouts, function(index, workout){
-            if (title == workout.title) same_title = true;
-        });
+        if(json.workouts)
+          $.each(json.workouts, function(index, workout){
+              if (title == workout.title) same_title = true;
+          });
 
         //Form Validation
         if (title == "") { //No title entered
